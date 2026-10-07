@@ -1,0 +1,29 @@
+# =============================================================================
+# Arquivos ignorados pelo Git (backend)
+# =============================================================================
+# Compilados Maven
+target/
+
+# Banco H2 gerado em tempo de execucao
+database.db
+*.db
+*.db.trace.db
+*.db.mv.db
+
+# IDEs
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.settings/
+.project
+.classpath
+.factorypath
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

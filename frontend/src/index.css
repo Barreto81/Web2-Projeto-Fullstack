@@ -1,0 +1,510 @@
+/* =============================================================================
+   index.css — ESTILOS DA APLICACAO (Web II · Spring Boot + React)
+   =============================================================================
+   Este arquivo define o visual de todas as telas. Organizado por secoes:
+     1. Variaveis (cores, fontes, sombras)
+     2. Reset basico e tipografia
+     3. Layout da aplicacao (app, main, footer)
+     4. Menu de navegacao
+     5. Paginas (cabecalho, cartoes)
+     6. Formularios controlados
+     7. Listas e itens
+     8. Botoes
+     9. Mensagens (sucesso, erro, carregando)
+    10. Utilidades (endpoints, codigo)
+   ============================================================================= */
+
+/* ------------------------- 1. VARIAVEIS ------------------------------------ */
+:root {
+  /* Paleta de cores */
+  --cor-fundo: #f4f6fb;
+  --cor-superficie: #ffffff;
+  --cor-texto: #1f2937;
+  --cor-texto-suave: #6b7280;
+  --cor-primaria: #2563eb;
+  --cor-primaria-escura: #1d4ed8;
+  --cor-primaria-clara: #dbeafe;
+  --cor-sucesso: #16a34a;
+  --cor-sucesso-fundo: #dcfce7;
+  --cor-erro: #dc2626;
+  --cor-erro-fundo: #fee2e2;
+  --cor-perigo: #dc2626;
+  --cor-borda: #e5e7eb;
+  --cor-secundaria-fundo: #f3f4f6;
+
+  /* Tipografia */
+  --fonte: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* Sombra padrao */
+  --sombra: 0 1px 3px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.05);
+  --sombra-media: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* ------------------------- 2. RESET / TIPOGRAFIA -------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--fonte);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--cor-texto);
+  background: var(--cor-fundo);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  color: var(--cor-texto);
+  font-weight: 600;
+}
+
+h1 {
+  font-size: 1.9rem;
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-size: 1.15rem;
+  margin-bottom: 0.5rem;
+}
+
+p {
+  margin: 0 0 0.75rem;
+}
+
+a {
+  color: var(--cor-primaria);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+code {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.85em;
+  background: var(--cor-secundaria-fundo);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  color: #1e3a8a;
+}
+
+/* ------------------------- 3. LAYOUT DA APLICACAO ------------------------- */
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-main {
+  flex: 1;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 3rem;
+}
+
+.app-footer {
+  background: var(--cor-superficie);
+  border-top: 1px solid var(--cor-borda);
+  padding: 1rem 1.25rem;
+  text-align: center;
+}
+
+.app-footer p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--cor-texto-suave);
+}
+
+/* ------------------------- 4. MENU DE NAVEGACAO --------------------------- */
+.menu {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 0.85rem 1.5rem;
+  background: var(--cor-superficie);
+  border-bottom: 1px solid var(--cor-borda);
+  box-shadow: var(--sombra);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.menu-marca {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.menu-logo {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--cor-primaria);
+  letter-spacing: -0.02em;
+}
+
+.menu-projeto {
+  font-size: 0.75rem;
+  color: var(--cor-texto-suave);
+}
+
+.menu-links {
+  display: flex;
+  gap: 0.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu-links a {
+  display: block;
+  padding: 0.5rem 0.95rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--cor-texto);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.menu-links a:hover {
+  background: var(--cor-secundaria-fundo);
+  text-decoration: none;
+}
+
+/* Classe aplicada automaticamente pelo NavLink quando a rota esta ativa */
+.menu-links a.ativo {
+  background: var(--cor-primaria);
+  color: #ffffff;
+}
+
+/* ------------------------- 5. PAGINAS / CARTOES --------------------------- */
+.pagina-cabecalho {
+  margin-bottom: 1.5rem;
+}
+
+.pagina-subtitulo {
+  margin-top: 0.35rem;
+  color: var(--cor-texto-suave);
+  font-size: 0.95rem;
+}
+
+.cartao {
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.25rem;
+  box-shadow: var(--sombra);
+}
+
+.cartao ul {
+  margin: 0.5rem 0 0;
+  padding-left: 1.25rem;
+}
+
+.cartao li {
+  margin-bottom: 0.35rem;
+}
+
+.endpoints {
+  list-style: none;
+  padding: 0 !important;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.endpoints li {
+  padding: 0.4rem 0.6rem;
+  background: var(--cor-secundaria-fundo);
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+/* ------------------------- 6. FORMULARIOS CONTROLADOS --------------------- */
+.formulario {
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--sombra);
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.formulario h2 {
+  margin-bottom: 0.25rem;
+}
+
+/* Cada campo e um <label> que envolve o input — acessivel e sem HTML extra */
+.formulario label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--cor-texto);
+}
+
+.formulario input,
+.formulario textarea {
+  font: inherit;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--cor-borda);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--cor-texto);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.formulario input:focus,
+.formulario textarea:focus {
+  outline: none;
+  border-color: var(--cor-primaria);
+  box-shadow: 0 0 0 3px var(--cor-primaria-clara);
+}
+
+.formulario textarea {
+  resize: vertical;
+  min-height: 3.5rem;
+}
+
+.formulario .botao {
+  align-self: flex-start;
+  margin-top: 0.25rem;
+}
+
+/* ------------------------- 7. LISTAS E ITENS ------------------------------ */
+.lista-secao {
+  margin-top: 0.5rem;
+}
+
+.lista-secao > h2 {
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.lista-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  box-shadow: var(--sombra);
+  transition: box-shadow 0.15s ease;
+}
+
+.lista-item:hover {
+  box-shadow: var(--sombra-media);
+}
+
+.lista-acoes {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.item {
+  flex: 1;
+  min-width: 200px;
+}
+
+.item-conteudo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.item-titulo {
+  font-size: 1rem;
+  color: var(--cor-texto);
+}
+
+.item-subtitulo {
+  font-size: 0.88rem;
+  color: var(--cor-primaria);
+}
+
+.item-preco {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--cor-sucesso);
+}
+
+.item-detalhe {
+  font-size: 0.85rem;
+  color: var(--cor-texto-suave);
+}
+
+.lista-vazia {
+  color: var(--cor-texto-suave);
+  font-style: italic;
+  padding: 1rem;
+  background: var(--cor-superficie);
+  border: 1px dashed var(--cor-borda);
+  border-radius: 10px;
+  margin: 0;
+}
+
+/* ------------------------- 8. BOTOES --------------------------------------- */
+.botao {
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.05s ease;
+  white-space: nowrap;
+}
+
+.botao:active {
+  transform: translateY(1px);
+}
+
+/* Botao primario (padrao do formulario de submit) */
+.formulario button[type="submit"],
+button[type="submit"] {
+  background: var(--cor-primaria);
+  color: #fff;
+  border-color: var(--cor-primaria);
+}
+
+.formulario button[type="submit"]:hover,
+button[type="submit"]:hover {
+  background: var(--cor-primaria-escura);
+  border-color: var(--cor-primaria-escura);
+}
+
+.formulario button[type="submit"]:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* Botao secundario (Editar) */
+.botao-secundario {
+  background: var(--cor-secundaria-fundo);
+  color: var(--cor-texto);
+  border-color: var(--cor-borda);
+}
+
+.botao-secundario:hover {
+  background: #e5e7eb;
+  border-color: #d1d5db;
+}
+
+/* Botao de perigo (Excluir) */
+.botao-perigo {
+  background: #fff;
+  color: var(--cor-perigo);
+  border-color: var(--cor-perigo);
+}
+
+.botao-perigo:hover {
+  background: var(--cor-erro-fundo);
+}
+
+/* ------------------------- 9. MENSAGENS ------------------------------------ */
+.mensagem {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.92rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+}
+
+/* Sucesso (cadastro/editar/excluir) */
+.mensagem-sucesso {
+  background: var(--cor-sucesso-fundo);
+  color: #14532d;
+  border-color: #86efac;
+}
+
+/* Erro (back-end desligado, validacao, regra de negocio) */
+.mensagem-erro {
+  background: var(--cor-erro-fundo);
+  color: #7f1d1d;
+  border-color: #fca5a5;
+}
+
+.mensagem-erro-dica {
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+/* Carregando (enquanto a API nao responde) */
+.mensagem-carregando {
+  background: var(--cor-primaria-clara);
+  color: #1e3a8a;
+  border-color: #93c5fd;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* Spinner de carregamento (anilhas CSS pura, sem bibliotecas) */
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #93c5fd;
+  border-top-color: var(--cor-primaria);
+  border-radius: 50%;
+  animation: girar 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes girar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ------------------------- 10. UTILIDADES ---------------------------------- */
+@media (max-width: 640px) {
+  .menu {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .menu-links {
+    flex-wrap: wrap;
+  }
+
+  .lista-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .lista-acoes {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}

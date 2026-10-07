@@ -1,0 +1,45 @@
+# =============================================================================
+# .gitattributes — controla como o Git trata os arquivos ao fazer commit
+# =============================================================================
+# IMPORTANTE para o exercício "comitar e subir no GitHub" (Aulas 02, 03, 05, 06):
+#
+# Sem este arquivo, o Git em WINDOWS pode converter os fins de linha do
+# mvnw.cmd para LF (quebrando o script no Windows) e o Git em LINUX/MAC
+# pode converter o mvnw para CRLF (quebrando o script no Unix).
+#
+# Com estas regras, cada arquivo mantém o formato original — o projeto
+# funciona igual em qualquer computador, depois de clonado do GitHub.
+# =============================================================================
+
+# --- Texto padrão: LF (Linux/Mac/GitHub) ---
+* text=auto eol=lf
+
+# --- Scripts do Maven Wrapper ---
+# mvnw      → sempre LF    (script de shell Unix)
+# mvnw.cmd  → sempre CRLF  (script de batch do Windows)
+mvnw      text eol=lf
+mvnw.cmd  text eol=crlf
+
+# --- Arquivos de configuração que o Windows precisa com CRLF ---
+*.cmd      text eol=crlf
+*.bat      text eol=crlf
+*.ps1      text eol=crlf
+
+# --- Arquivos que devem permanecer LF ---
+*.sh       text eol=lf
+*.properties text eol=lf
+*.xml      text eol=lf
+*.java     text eol=lf
+*.ts       text eol=lf
+*.tsx      text eol=lf
+*.json     text eol=lf
+*.md       text eol=lf
+*.css      text eol=lf
+*.html     text eol=lf
+
+# --- Binários: o Git NÃO deve tentar converter ---
+*.jar      binary
+*.png      binary
+*.svg      binary
+*.ico      binary
+*.db       binary

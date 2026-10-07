@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ==========================================================================
+  pom.xml — Projeto Spring Boot (Programação Web II)
+  ==========================================================================
+  Este arquivo é o "coração" do build do projeto. Ele diz ao Maven:
+
+    1. Quais bibliotecas o projeto precisa (dependências);
+    2. Qual versão do Java deve ser usada para compilar;
+    3. Como empacotar a aplicação (jar executável).
+
+  IMPORTANTE para portabilidade:
+    - <java.version>17</java.version> garante que o .jar gerado seja
+      executável em QUALQUER máquina com Java 17, 21 ou 25 instalado;
+    - O plugin spring-boot-maven-plugin gera um "fat jar" (jar executável)
+      que já embute todas as dependências. Ou seja: basta ter o Java e
+      rodar:  java -jar target/braully-web2-fullstack-1.0.0.jar
+      NÃO é preciso instalar Maven, Gradle nem baixar bibliotecas.
+  ==========================================================================
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <!-- Modelo de informações do projeto (semântica Maven) -->
+    <modelVersion>4.0.0</modelVersion>
+
+    <!--
+      Parent: herda toda a configuração padrão de um projeto Spring Boot
+      (versões das dependências, plugins, etc.). Por isso NÃO precisamos
+      informar a versão de cada dependência no bloco <dependency>.
+    -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <!-- Versão estável do Spring Boot 3.5.x -->
+        <version>3.5.16</version>
+        <relativePath/>
+    </parent>
+
+    <!-- Identificação do projeto -->
+    <groupId>br.ueg.trindade</groupId>
+    <artifactId>braully-web2-fullstack</artifactId>
+    <version>1.0.0</version>
+    <name>braully-web2-fullstack</name>
+    <description>Projeto completo da disciplina Programação Web II — Spring Boot + React</description>
+
+    <!-- Configurações do projeto -->
+    <properties>
+        <!-- Código-fonte compila para Java 17 (compatível com 17, 21 e 25) -->
+        <java.version>17</java.version>
+        <!-- Evita warning de encoding em sistemas diferentes -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- Faz o Maven ignorar o BOM do Spring Boot na resolução de versões -->
+        <maven.compiler.parameters>true</maven.compiler.parameters>
+    </properties>
+
+    <dependencies>
+
+        <!--
+          WEB (REST + Servlet)
+          Fornece: servidor embutido (Tomcat), mapeamento de endpoints
+          (@RestController, @GetMapping, ...), serialização automática
+          Java <-> JSON (Jackson) e a base do Spring MVC.
+          É a dependência que permite expor APIs REST conforme a Aula 02.
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!--
+          DATA JPA (persistência)
+          Fornece: Spring Data JPA (JpaRepository), Hibernate (ORM) e
+          a configuração automática do EntityManager. É o que transforma
+          nossas classes em @Entity e criamos os Repository conforme a Aula 03.
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <!--
+          VALIDATION
+          Permite validar dados de entrada com anotações como @NotBlank,
+          @NotNull, @Email, @Positive e devolver mensagens de erro
+          automáticas quando a regra não é atendida.
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <!--
+          ACTUATOR
+          Fornece endpoints de "saúde" da aplicação. É muito útil para
+          verificar se a API está no ar (ex.: GET /actuator/health).
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <!--
+          H2 DATABASE (runtime)
+          Banco de dados relacional EM MEMÓRIA ou EM ARQUIVO, escrito 100%
+          em Java. Não exige instalação — perfeito para estudo e para o
+          projeto rodar em QUALQUER computador sem configurar MySQL/PostgreSQL.
+          O Spring Boot gera o driver automaticamente.
+        -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!--
+          TESTE
+          Tras JUnit 5, MockMvc e demais ferramentas para testar a API
+          sem precisar subir o navegador. Usamos em src/test/java.
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+
+            <!--
+              SPRING BOOT MAVEN PLUGIN
+              - spring-boot:run → roda a aplicação direto da pasta (dev);
+              - package         → gera o jar executável (produção/envio).
+              O objetivo repackage embute todas as dependências dentro do
+              jar, criando um arquivo único e autossuficiente.
+              O nome gerado é: target/braully-web2-fullstack-1.0.0.jar
+            -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <!-- Não embute o maven-wrapper dentro do jar -->
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+
+            <!--
+              MAVEN COMPILER PLUGIN
+              Explicita o level de linguagem/target Java 17 para garantir
+              compatibilidade máxima com máquinas diferentes.
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <release>${java.version}</release>
+                    <parameters>true</parameters>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>

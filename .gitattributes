@@ -1,0 +1,8 @@
+# =============================================================================
+# .gitattributes — padrões padrão da raiz do projeto
+# =============================================================================
+* text=auto eol=lf
+*.cmd      text eol=crlf
+*.bat      text eol=crlf
+*.jar      binary
+*.png      binary
